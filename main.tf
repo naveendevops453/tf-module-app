@@ -41,9 +41,21 @@ resource "aws_route53_record" "main" {
   records = [aws_instance.main.private_ip]
 }
 
+
 resource "null_resource" "main" {
   depends_on = [aws_route53_record.main]
-  provisioner "local-exec" {
-    command = "sleep 120;cd /home/ec2-user/expense-anisble; ansible-playbook -i ${aws_instance.main.private_ip}, -e ansible_user=ec2-user -e ansible_password=DevOps321 -e role_name=${var.name} -e env=${var.env} expense.yml"
+
+  connection {
+    host        = aws_instance.main.private_ip
+    user        = "ec2-user"
+    password    = "DevOps321"
+    type        = "ssh"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo labauto ansible",
+    "ansible-pull -i localhost, -U https://github.com/naveendevops453/expense-anisble.git -e role_name=${var.name} -e env=${var.env} expense.yml"
+    ]
   }
 }
