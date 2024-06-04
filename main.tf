@@ -7,6 +7,7 @@ resource "aws_security_group" "main" {
     to_port          = 22
     protocol         = "tcp"
     cidr_blocks      = ["0.0.0.0/0"]
+    description      = "SSH Port"
   }
 
   ingress {
@@ -14,6 +15,7 @@ resource "aws_security_group" "main" {
     to_port          = var.port_no
     protocol         = "tcp"
     cidr_blocks      = ["0.0.0.0/0"]
+    description      = "App Port"
   }
 
   ingress {
@@ -21,6 +23,7 @@ resource "aws_security_group" "main" {
     to_port          = 9100
     protocol         = "tcp"
     cidr_blocks      = var.prometheus_servers
+    description      = "Prometheus Port"
   }
 
   egress {
