@@ -39,6 +39,10 @@ resource "aws_instance" "main" {
   tags = {
     Name = "${var.name}-${var.env}"
   }
+#this to not recreate machines on terraform apply again and again. this will not be needed when we go with ASG
+  lifecycle {
+    ignore_changes = ["ami"]
+  }
 
 }
 resource "aws_route53_record" "main" {
