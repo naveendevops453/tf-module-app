@@ -41,6 +41,7 @@ resource "aws_instance" "main" {
   vpc_security_group_ids = [aws_security_group.main.id]
   tags = {
     Name = "${var.name}-${var.env}"
+    Monitor = "yes"
   }
 #this to not recreate machines on terraform apply again and again. this will not be needed when we go with ASG
   lifecycle {
